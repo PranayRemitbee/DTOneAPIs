@@ -1,7 +1,6 @@
 // @generated
 //  This file was automatically generated and should not be edited.
 
-//Dummy uodated
 import Apollo
 import Foundation
 
@@ -856,6 +855,8 @@ public final class CreateDtOneTransactionMutation: GraphQLMutation {
       createTransaction(businessUniqueId: $businessUniqueId, payment: $payment, transaction: $transaction) {
         __typename
         message
+        dtoneTranId
+        isCardVerificationRequired
         pinCode
         pinProduct
         pinSerial
@@ -924,6 +925,8 @@ public final class CreateDtOneTransactionMutation: GraphQLMutation {
         return [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("message", type: .scalar(String.self)),
+          GraphQLField("dtoneTranId", type: .scalar(Int.self)),
+          GraphQLField("isCardVerificationRequired", type: .scalar(Bool.self)),
           GraphQLField("pinCode", type: .scalar(String.self)),
           GraphQLField("pinProduct", type: .scalar(Bool.self)),
           GraphQLField("pinSerial", type: .scalar(String.self)),
@@ -942,8 +945,8 @@ public final class CreateDtOneTransactionMutation: GraphQLMutation {
         self.resultMap = unsafeResultMap
       }
 
-      public init(message: String? = nil, pinCode: String? = nil, pinProduct: Bool? = nil, pinSerial: String? = nil, productDeliveryEmailId: String? = nil, transactionStatus: String? = nil, transactionSubStatus: String? = nil, transactionUniqueId: String? = nil, providerLogo: String? = nil, challengeParams: ChallengeParam? = nil) {
-        self.init(unsafeResultMap: ["__typename": "CreateTransactionResponse", "message": message, "pinCode": pinCode, "pinProduct": pinProduct, "pinSerial": pinSerial, "productDeliveryEmailId": productDeliveryEmailId, "transactionStatus": transactionStatus, "transactionSubStatus": transactionSubStatus, "transactionUniqueId": transactionUniqueId, "providerLogo": providerLogo, "challengeParams": challengeParams.flatMap { (value: ChallengeParam) -> ResultMap in value.resultMap }])
+      public init(message: String? = nil, dtoneTranId: Int? = nil, isCardVerificationRequired: Bool? = nil, pinCode: String? = nil, pinProduct: Bool? = nil, pinSerial: String? = nil, productDeliveryEmailId: String? = nil, transactionStatus: String? = nil, transactionSubStatus: String? = nil, transactionUniqueId: String? = nil, providerLogo: String? = nil, challengeParams: ChallengeParam? = nil) {
+        self.init(unsafeResultMap: ["__typename": "CreateTransactionResponse", "message": message, "dtoneTranId": dtoneTranId, "isCardVerificationRequired": isCardVerificationRequired, "pinCode": pinCode, "pinProduct": pinProduct, "pinSerial": pinSerial, "productDeliveryEmailId": productDeliveryEmailId, "transactionStatus": transactionStatus, "transactionSubStatus": transactionSubStatus, "transactionUniqueId": transactionUniqueId, "providerLogo": providerLogo, "challengeParams": challengeParams.flatMap { (value: ChallengeParam) -> ResultMap in value.resultMap }])
       }
 
       public var __typename: String {
@@ -961,6 +964,24 @@ public final class CreateDtOneTransactionMutation: GraphQLMutation {
         }
         set {
           resultMap.updateValue(newValue, forKey: "message")
+        }
+      }
+
+      public var dtoneTranId: Int? {
+        get {
+          return resultMap["dtoneTranId"] as? Int
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "dtoneTranId")
+        }
+      }
+
+      public var isCardVerificationRequired: Bool? {
+        get {
+          return resultMap["isCardVerificationRequired"] as? Bool
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "isCardVerificationRequired")
         }
       }
 
@@ -4420,3 +4441,4 @@ public final class GetSubServicesByServiceAndCountryQuery: GraphQLQuery {
     }
   }
 }
+
