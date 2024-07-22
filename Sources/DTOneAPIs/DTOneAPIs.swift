@@ -3153,6 +3153,764 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
   }
 }
 
+public final class GetEsimProductsQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query GetEsimProducts($countryId: Int, $serviceId: Int, $type: Type, $pageOptions: PaginationInput) {
+      getProducts(input: {countryId: $countryId, serviceId: $serviceId, type: $type, pageOptions: $pageOptions}) {
+        __typename
+        products {
+          __typename
+          description
+          destinationAmount
+          destinationUnit
+          dtoneCountryId
+          id
+          name
+          operatorId
+          paymentSupportsStatementInquiry
+          pinTerms
+          pinUsageInfo
+          pinValidityQuantity
+          pinValidityUnit
+          retailAmount
+          retailAmountUnit
+          serviceId
+          subServiceId
+          type
+          validityQuantity
+          validityUnit
+          operator {
+            __typename
+            imageUrl
+            label
+            name
+          }
+          country {
+            __typename
+            name
+            iso2
+          }
+          transactionRequiredFields {
+            __typename
+            rbParentLabel
+            requiredFields {
+              __typename
+              dtoneFieldName
+              errorMessage
+              fieldDescription
+              id
+              placeholder
+              rbFieldLabel
+              rbParentLabel
+              regex
+              tooltip
+            }
+          }
+        }
+        pagination {
+          __typename
+          currentPage
+          rowsPerPage
+          totalPages
+          totalValues
+        }
+      }
+    }
+    """
+
+  public let operationName: String = "GetEsimProducts"
+
+  public var countryId: Int?
+  public var serviceId: Int?
+  public var type: `Type`?
+  public var pageOptions: PaginationInput?
+
+  public init(countryId: Int? = nil, serviceId: Int? = nil, type: `Type`? = nil, pageOptions: PaginationInput? = nil) {
+    self.countryId = countryId
+    self.serviceId = serviceId
+    self.type = type
+    self.pageOptions = pageOptions
+  }
+
+  public var variables: GraphQLMap? {
+    return ["countryId": countryId, "serviceId": serviceId, "type": type, "pageOptions": pageOptions]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("getProducts", arguments: ["input": ["countryId": GraphQLVariable("countryId"), "serviceId": GraphQLVariable("serviceId"), "type": GraphQLVariable("type"), "pageOptions": GraphQLVariable("pageOptions")]], type: .nonNull(.object(GetProduct.selections))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(getProducts: GetProduct) {
+      self.init(unsafeResultMap: ["__typename": "Query", "getProducts": getProducts.resultMap])
+    }
+
+    public var getProducts: GetProduct {
+      get {
+        return GetProduct(unsafeResultMap: resultMap["getProducts"]! as! ResultMap)
+      }
+      set {
+        resultMap.updateValue(newValue.resultMap, forKey: "getProducts")
+      }
+    }
+
+    public struct GetProduct: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["ActiveProductsDto"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("products", type: .nonNull(.list(.nonNull(.object(Product.selections))))),
+          GraphQLField("pagination", type: .nonNull(.object(Pagination.selections))),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(products: [Product], pagination: Pagination) {
+        self.init(unsafeResultMap: ["__typename": "ActiveProductsDto", "products": products.map { (value: Product) -> ResultMap in value.resultMap }, "pagination": pagination.resultMap])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var products: [Product] {
+        get {
+          return (resultMap["products"] as! [ResultMap]).map { (value: ResultMap) -> Product in Product(unsafeResultMap: value) }
+        }
+        set {
+          resultMap.updateValue(newValue.map { (value: Product) -> ResultMap in value.resultMap }, forKey: "products")
+        }
+      }
+
+      public var pagination: Pagination {
+        get {
+          return Pagination(unsafeResultMap: resultMap["pagination"]! as! ResultMap)
+        }
+        set {
+          resultMap.updateValue(newValue.resultMap, forKey: "pagination")
+        }
+      }
+
+      public struct Product: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["ProductDto"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("description", type: .scalar(String.self)),
+            GraphQLField("destinationAmount", type: .scalar(Double.self)),
+            GraphQLField("destinationUnit", type: .nonNull(.scalar(String.self))),
+            GraphQLField("dtoneCountryId", type: .nonNull(.scalar(Int.self))),
+            GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+            GraphQLField("name", type: .nonNull(.scalar(String.self))),
+            GraphQLField("operatorId", type: .nonNull(.scalar(Int.self))),
+            GraphQLField("paymentSupportsStatementInquiry", type: .scalar(Bool.self)),
+            GraphQLField("pinTerms", type: .scalar(String.self)),
+            GraphQLField("pinUsageInfo", type: .list(.nonNull(.scalar(String.self)))),
+            GraphQLField("pinValidityQuantity", type: .scalar(Double.self)),
+            GraphQLField("pinValidityUnit", type: .scalar(String.self)),
+            GraphQLField("retailAmount", type: .scalar(Double.self)),
+            GraphQLField("retailAmountUnit", type: .scalar(String.self)),
+            GraphQLField("serviceId", type: .nonNull(.scalar(Int.self))),
+            GraphQLField("subServiceId", type: .scalar(Int.self)),
+            GraphQLField("type", type: .nonNull(.scalar(String.self))),
+            GraphQLField("validityQuantity", type: .scalar(Int.self)),
+            GraphQLField("validityUnit", type: .scalar(String.self)),
+            GraphQLField("operator", type: .object(Operator.selections)),
+            GraphQLField("country", type: .nonNull(.object(Country.selections))),
+            GraphQLField("transactionRequiredFields", type: .list(.nonNull(.object(TransactionRequiredField.selections)))),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(description: String? = nil, destinationAmount: Double? = nil, destinationUnit: String, dtoneCountryId: Int, id: Int, name: String, operatorId: Int, paymentSupportsStatementInquiry: Bool? = nil, pinTerms: String? = nil, pinUsageInfo: [String]? = nil, pinValidityQuantity: Double? = nil, pinValidityUnit: String? = nil, retailAmount: Double? = nil, retailAmountUnit: String? = nil, serviceId: Int, subServiceId: Int? = nil, type: String, validityQuantity: Int? = nil, validityUnit: String? = nil, `operator`: Operator? = nil, country: Country, transactionRequiredFields: [TransactionRequiredField]? = nil) {
+          self.init(unsafeResultMap: ["__typename": "ProductDto", "description": description, "destinationAmount": destinationAmount, "destinationUnit": destinationUnit, "dtoneCountryId": dtoneCountryId, "id": id, "name": name, "operatorId": operatorId, "paymentSupportsStatementInquiry": paymentSupportsStatementInquiry, "pinTerms": pinTerms, "pinUsageInfo": pinUsageInfo, "pinValidityQuantity": pinValidityQuantity, "pinValidityUnit": pinValidityUnit, "retailAmount": retailAmount, "retailAmountUnit": retailAmountUnit, "serviceId": serviceId, "subServiceId": subServiceId, "type": type, "validityQuantity": validityQuantity, "validityUnit": validityUnit, "operator": `operator`.flatMap { (value: Operator) -> ResultMap in value.resultMap }, "country": country.resultMap, "transactionRequiredFields": transactionRequiredFields.flatMap { (value: [TransactionRequiredField]) -> [ResultMap] in value.map { (value: TransactionRequiredField) -> ResultMap in value.resultMap } }])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var description: String? {
+          get {
+            return resultMap["description"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "description")
+          }
+        }
+
+        public var destinationAmount: Double? {
+          get {
+            return resultMap["destinationAmount"] as? Double
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "destinationAmount")
+          }
+        }
+
+        public var destinationUnit: String {
+          get {
+            return resultMap["destinationUnit"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "destinationUnit")
+          }
+        }
+
+        public var dtoneCountryId: Int {
+          get {
+            return resultMap["dtoneCountryId"]! as! Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "dtoneCountryId")
+          }
+        }
+
+        public var id: Int {
+          get {
+            return resultMap["id"]! as! Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var name: String {
+          get {
+            return resultMap["name"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "name")
+          }
+        }
+
+        public var operatorId: Int {
+          get {
+            return resultMap["operatorId"]! as! Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "operatorId")
+          }
+        }
+
+        public var paymentSupportsStatementInquiry: Bool? {
+          get {
+            return resultMap["paymentSupportsStatementInquiry"] as? Bool
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "paymentSupportsStatementInquiry")
+          }
+        }
+
+        public var pinTerms: String? {
+          get {
+            return resultMap["pinTerms"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "pinTerms")
+          }
+        }
+
+        public var pinUsageInfo: [String]? {
+          get {
+            return resultMap["pinUsageInfo"] as? [String]
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "pinUsageInfo")
+          }
+        }
+
+        public var pinValidityQuantity: Double? {
+          get {
+            return resultMap["pinValidityQuantity"] as? Double
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "pinValidityQuantity")
+          }
+        }
+
+        public var pinValidityUnit: String? {
+          get {
+            return resultMap["pinValidityUnit"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "pinValidityUnit")
+          }
+        }
+
+        public var retailAmount: Double? {
+          get {
+            return resultMap["retailAmount"] as? Double
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "retailAmount")
+          }
+        }
+
+        public var retailAmountUnit: String? {
+          get {
+            return resultMap["retailAmountUnit"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "retailAmountUnit")
+          }
+        }
+
+        public var serviceId: Int {
+          get {
+            return resultMap["serviceId"]! as! Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "serviceId")
+          }
+        }
+
+        public var subServiceId: Int? {
+          get {
+            return resultMap["subServiceId"] as? Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "subServiceId")
+          }
+        }
+
+        public var type: String {
+          get {
+            return resultMap["type"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "type")
+          }
+        }
+
+        public var validityQuantity: Int? {
+          get {
+            return resultMap["validityQuantity"] as? Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "validityQuantity")
+          }
+        }
+
+        public var validityUnit: String? {
+          get {
+            return resultMap["validityUnit"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "validityUnit")
+          }
+        }
+
+        public var `operator`: Operator? {
+          get {
+            return (resultMap["operator"] as? ResultMap).flatMap { Operator(unsafeResultMap: $0) }
+          }
+          set {
+            resultMap.updateValue(newValue?.resultMap, forKey: "operator")
+          }
+        }
+
+        public var country: Country {
+          get {
+            return Country(unsafeResultMap: resultMap["country"]! as! ResultMap)
+          }
+          set {
+            resultMap.updateValue(newValue.resultMap, forKey: "country")
+          }
+        }
+
+        public var transactionRequiredFields: [TransactionRequiredField]? {
+          get {
+            return (resultMap["transactionRequiredFields"] as? [ResultMap]).flatMap { (value: [ResultMap]) -> [TransactionRequiredField] in value.map { (value: ResultMap) -> TransactionRequiredField in TransactionRequiredField(unsafeResultMap: value) } }
+          }
+          set {
+            resultMap.updateValue(newValue.flatMap { (value: [TransactionRequiredField]) -> [ResultMap] in value.map { (value: TransactionRequiredField) -> ResultMap in value.resultMap } }, forKey: "transactionRequiredFields")
+          }
+        }
+
+        public struct Operator: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["TransactionOperatorDTO"]
+
+          public static var selections: [GraphQLSelection] {
+            return [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("imageUrl", type: .nonNull(.scalar(String.self))),
+              GraphQLField("label", type: .nonNull(.scalar(String.self))),
+              GraphQLField("name", type: .nonNull(.scalar(String.self))),
+            ]
+          }
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(imageUrl: String, label: String, name: String) {
+            self.init(unsafeResultMap: ["__typename": "TransactionOperatorDTO", "imageUrl": imageUrl, "label": label, "name": name])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var imageUrl: String {
+            get {
+              return resultMap["imageUrl"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "imageUrl")
+            }
+          }
+
+          public var label: String {
+            get {
+              return resultMap["label"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "label")
+            }
+          }
+
+          public var name: String {
+            get {
+              return resultMap["name"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "name")
+            }
+          }
+        }
+
+        public struct Country: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["CountryDTO"]
+
+          public static var selections: [GraphQLSelection] {
+            return [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("name", type: .nonNull(.scalar(String.self))),
+              GraphQLField("iso2", type: .nonNull(.scalar(String.self))),
+            ]
+          }
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(name: String, iso2: String) {
+            self.init(unsafeResultMap: ["__typename": "CountryDTO", "name": name, "iso2": iso2])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var name: String {
+            get {
+              return resultMap["name"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "name")
+            }
+          }
+
+          public var iso2: String {
+            get {
+              return resultMap["iso2"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "iso2")
+            }
+          }
+        }
+
+        public struct TransactionRequiredField: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["RequiredFieldGroup"]
+
+          public static var selections: [GraphQLSelection] {
+            return [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("rbParentLabel", type: .scalar(String.self)),
+              GraphQLField("requiredFields", type: .list(.nonNull(.object(RequiredField.selections)))),
+            ]
+          }
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(rbParentLabel: String? = nil, requiredFields: [RequiredField]? = nil) {
+            self.init(unsafeResultMap: ["__typename": "RequiredFieldGroup", "rbParentLabel": rbParentLabel, "requiredFields": requiredFields.flatMap { (value: [RequiredField]) -> [ResultMap] in value.map { (value: RequiredField) -> ResultMap in value.resultMap } }])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var rbParentLabel: String? {
+            get {
+              return resultMap["rbParentLabel"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "rbParentLabel")
+            }
+          }
+
+          public var requiredFields: [RequiredField]? {
+            get {
+              return (resultMap["requiredFields"] as? [ResultMap]).flatMap { (value: [ResultMap]) -> [RequiredField] in value.map { (value: ResultMap) -> RequiredField in RequiredField(unsafeResultMap: value) } }
+            }
+            set {
+              resultMap.updateValue(newValue.flatMap { (value: [RequiredField]) -> [ResultMap] in value.map { (value: RequiredField) -> ResultMap in value.resultMap } }, forKey: "requiredFields")
+            }
+          }
+
+          public struct RequiredField: GraphQLSelectionSet {
+            public static let possibleTypes: [String] = ["RequiredField"]
+
+            public static var selections: [GraphQLSelection] {
+              return [
+                GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+                GraphQLField("dtoneFieldName", type: .nonNull(.scalar(String.self))),
+                GraphQLField("errorMessage", type: .scalar(String.self)),
+                GraphQLField("fieldDescription", type: .scalar(String.self)),
+                GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+                GraphQLField("placeholder", type: .scalar(String.self)),
+                GraphQLField("rbFieldLabel", type: .nonNull(.scalar(String.self))),
+                GraphQLField("rbParentLabel", type: .nonNull(.scalar(String.self))),
+                GraphQLField("regex", type: .nonNull(.scalar(String.self))),
+                GraphQLField("tooltip", type: .scalar(String.self)),
+              ]
+            }
+
+            public private(set) var resultMap: ResultMap
+
+            public init(unsafeResultMap: ResultMap) {
+              self.resultMap = unsafeResultMap
+            }
+
+            public init(dtoneFieldName: String, errorMessage: String? = nil, fieldDescription: String? = nil, id: Int, placeholder: String? = nil, rbFieldLabel: String, rbParentLabel: String, regex: String, tooltip: String? = nil) {
+              self.init(unsafeResultMap: ["__typename": "RequiredField", "dtoneFieldName": dtoneFieldName, "errorMessage": errorMessage, "fieldDescription": fieldDescription, "id": id, "placeholder": placeholder, "rbFieldLabel": rbFieldLabel, "rbParentLabel": rbParentLabel, "regex": regex, "tooltip": tooltip])
+            }
+
+            public var __typename: String {
+              get {
+                return resultMap["__typename"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "__typename")
+              }
+            }
+
+            public var dtoneFieldName: String {
+              get {
+                return resultMap["dtoneFieldName"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "dtoneFieldName")
+              }
+            }
+
+            public var errorMessage: String? {
+              get {
+                return resultMap["errorMessage"] as? String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "errorMessage")
+              }
+            }
+
+            public var fieldDescription: String? {
+              get {
+                return resultMap["fieldDescription"] as? String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "fieldDescription")
+              }
+            }
+
+            public var id: Int {
+              get {
+                return resultMap["id"]! as! Int
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var placeholder: String? {
+              get {
+                return resultMap["placeholder"] as? String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "placeholder")
+              }
+            }
+
+            public var rbFieldLabel: String {
+              get {
+                return resultMap["rbFieldLabel"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "rbFieldLabel")
+              }
+            }
+
+            public var rbParentLabel: String {
+              get {
+                return resultMap["rbParentLabel"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "rbParentLabel")
+              }
+            }
+
+            public var regex: String {
+              get {
+                return resultMap["regex"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "regex")
+              }
+            }
+
+            public var tooltip: String? {
+              get {
+                return resultMap["tooltip"] as? String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "tooltip")
+              }
+            }
+          }
+        }
+      }
+
+      public struct Pagination: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["PaginationDTO"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("currentPage", type: .nonNull(.scalar(Int.self))),
+            GraphQLField("rowsPerPage", type: .nonNull(.scalar(Int.self))),
+            GraphQLField("totalPages", type: .nonNull(.scalar(Int.self))),
+            GraphQLField("totalValues", type: .nonNull(.scalar(Int.self))),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(currentPage: Int, rowsPerPage: Int, totalPages: Int, totalValues: Int) {
+          self.init(unsafeResultMap: ["__typename": "PaginationDTO", "currentPage": currentPage, "rowsPerPage": rowsPerPage, "totalPages": totalPages, "totalValues": totalValues])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var currentPage: Int {
+          get {
+            return resultMap["currentPage"]! as! Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "currentPage")
+          }
+        }
+
+        public var rowsPerPage: Int {
+          get {
+            return resultMap["rowsPerPage"]! as! Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "rowsPerPage")
+          }
+        }
+
+        public var totalPages: Int {
+          get {
+            return resultMap["totalPages"]! as! Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "totalPages")
+          }
+        }
+
+        public var totalValues: Int {
+          get {
+            return resultMap["totalValues"]! as! Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "totalValues")
+          }
+        }
+      }
+    }
+  }
+}
+
 public final class GetOperatorByServiceQuery: GraphQLQuery {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
