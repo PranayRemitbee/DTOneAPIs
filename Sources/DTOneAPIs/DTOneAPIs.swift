@@ -1141,6 +1141,277 @@ public final class CreateDtOneTransactionMutation: GraphQLMutation {
   }
 }
 
+public final class CreateEsimTransactionMutation: GraphQLMutation {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    mutation CreateEsimTransaction($businessUniqueId: String, $transaction: TransactionSaveInput!, $payment: TransactionPaymentInput!) {
+      createTransaction(payment: $payment, transaction: $transaction, businessUniqueId: $businessUniqueId) {
+        __typename
+        dtoneTranId
+        isCardVerificationRequired
+        message
+        pinCode
+        pinProduct
+        pinSerial
+        providerLogo
+        qrCode
+        transactionStatus
+        transactionSubStatus
+        transactionUniqueId
+        challengeParams {
+          __typename
+          challengeData
+          challengeUrl
+        }
+      }
+    }
+    """
+
+  public let operationName: String = "CreateEsimTransaction"
+
+  public var businessUniqueId: String?
+  public var transaction: TransactionSaveInput
+  public var payment: TransactionPaymentInput
+
+  public init(businessUniqueId: String? = nil, transaction: TransactionSaveInput, payment: TransactionPaymentInput) {
+    self.businessUniqueId = businessUniqueId
+    self.transaction = transaction
+    self.payment = payment
+  }
+
+  public var variables: GraphQLMap? {
+    return ["businessUniqueId": businessUniqueId, "transaction": transaction, "payment": payment]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Mutation"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("createTransaction", arguments: ["payment": GraphQLVariable("payment"), "transaction": GraphQLVariable("transaction"), "businessUniqueId": GraphQLVariable("businessUniqueId")], type: .nonNull(.object(CreateTransaction.selections))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(createTransaction: CreateTransaction) {
+      self.init(unsafeResultMap: ["__typename": "Mutation", "createTransaction": createTransaction.resultMap])
+    }
+
+    public var createTransaction: CreateTransaction {
+      get {
+        return CreateTransaction(unsafeResultMap: resultMap["createTransaction"]! as! ResultMap)
+      }
+      set {
+        resultMap.updateValue(newValue.resultMap, forKey: "createTransaction")
+      }
+    }
+
+    public struct CreateTransaction: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["CreateTransactionResponse"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("dtoneTranId", type: .scalar(Int.self)),
+          GraphQLField("isCardVerificationRequired", type: .scalar(Bool.self)),
+          GraphQLField("message", type: .scalar(String.self)),
+          GraphQLField("pinCode", type: .scalar(String.self)),
+          GraphQLField("pinProduct", type: .scalar(Bool.self)),
+          GraphQLField("pinSerial", type: .scalar(String.self)),
+          GraphQLField("providerLogo", type: .scalar(String.self)),
+          GraphQLField("qrCode", type: .scalar(String.self)),
+          GraphQLField("transactionStatus", type: .scalar(String.self)),
+          GraphQLField("transactionSubStatus", type: .scalar(String.self)),
+          GraphQLField("transactionUniqueId", type: .scalar(String.self)),
+          GraphQLField("challengeParams", type: .object(ChallengeParam.selections)),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(dtoneTranId: Int? = nil, isCardVerificationRequired: Bool? = nil, message: String? = nil, pinCode: String? = nil, pinProduct: Bool? = nil, pinSerial: String? = nil, providerLogo: String? = nil, qrCode: String? = nil, transactionStatus: String? = nil, transactionSubStatus: String? = nil, transactionUniqueId: String? = nil, challengeParams: ChallengeParam? = nil) {
+        self.init(unsafeResultMap: ["__typename": "CreateTransactionResponse", "dtoneTranId": dtoneTranId, "isCardVerificationRequired": isCardVerificationRequired, "message": message, "pinCode": pinCode, "pinProduct": pinProduct, "pinSerial": pinSerial, "providerLogo": providerLogo, "qrCode": qrCode, "transactionStatus": transactionStatus, "transactionSubStatus": transactionSubStatus, "transactionUniqueId": transactionUniqueId, "challengeParams": challengeParams.flatMap { (value: ChallengeParam) -> ResultMap in value.resultMap }])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var dtoneTranId: Int? {
+        get {
+          return resultMap["dtoneTranId"] as? Int
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "dtoneTranId")
+        }
+      }
+
+      public var isCardVerificationRequired: Bool? {
+        get {
+          return resultMap["isCardVerificationRequired"] as? Bool
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "isCardVerificationRequired")
+        }
+      }
+
+      public var message: String? {
+        get {
+          return resultMap["message"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "message")
+        }
+      }
+
+      public var pinCode: String? {
+        get {
+          return resultMap["pinCode"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "pinCode")
+        }
+      }
+
+      public var pinProduct: Bool? {
+        get {
+          return resultMap["pinProduct"] as? Bool
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "pinProduct")
+        }
+      }
+
+      public var pinSerial: String? {
+        get {
+          return resultMap["pinSerial"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "pinSerial")
+        }
+      }
+
+      public var providerLogo: String? {
+        get {
+          return resultMap["providerLogo"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "providerLogo")
+        }
+      }
+
+      public var qrCode: String? {
+        get {
+          return resultMap["qrCode"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "qrCode")
+        }
+      }
+
+      public var transactionStatus: String? {
+        get {
+          return resultMap["transactionStatus"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "transactionStatus")
+        }
+      }
+
+      public var transactionSubStatus: String? {
+        get {
+          return resultMap["transactionSubStatus"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "transactionSubStatus")
+        }
+      }
+
+      public var transactionUniqueId: String? {
+        get {
+          return resultMap["transactionUniqueId"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "transactionUniqueId")
+        }
+      }
+
+      public var challengeParams: ChallengeParam? {
+        get {
+          return (resultMap["challengeParams"] as? ResultMap).flatMap { ChallengeParam(unsafeResultMap: $0) }
+        }
+        set {
+          resultMap.updateValue(newValue?.resultMap, forKey: "challengeParams")
+        }
+      }
+
+      public struct ChallengeParam: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["TransactionChallengeParamsDTO"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("challengeData", type: .nonNull(.scalar(String.self))),
+            GraphQLField("challengeUrl", type: .nonNull(.scalar(String.self))),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(challengeData: String, challengeUrl: String) {
+          self.init(unsafeResultMap: ["__typename": "TransactionChallengeParamsDTO", "challengeData": challengeData, "challengeUrl": challengeUrl])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var challengeData: String {
+          get {
+            return resultMap["challengeData"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "challengeData")
+          }
+        }
+
+        public var challengeUrl: String {
+          get {
+            return resultMap["challengeUrl"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "challengeUrl")
+          }
+        }
+      }
+    }
+  }
+}
+
 public final class GetBillPaymentProductsQuery: GraphQLQuery {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
