@@ -2608,6 +2608,7 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
         isPinType
         pinCode
         pinSerial
+        isCardVerificationRequired
         receivingAmountCurrencyDetails {
           __typename
           currencyCode
@@ -2652,10 +2653,30 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
           shortName
           currencyCode
         }
+        paymentInfo {
+          __typename
+          paymentType
+          name
+          cardType
+          cardInfo
+        }
         product {
           __typename
+          id
           name
           description
+          pinTerms
+          validityUnit
+          validityQuantity
+          pinValidityUnit
+          pinValidityQuantity
+        }
+        esimDeliveryInfo {
+          __typename
+          qrCode
+          universalLink
+          smdpAddress
+          activationCode
         }
       }
     }
@@ -2720,6 +2741,7 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
           GraphQLField("isPinType", type: .scalar(Bool.self)),
           GraphQLField("pinCode", type: .scalar(String.self)),
           GraphQLField("pinSerial", type: .scalar(String.self)),
+          GraphQLField("isCardVerificationRequired", type: .scalar(Bool.self)),
           GraphQLField("receivingAmountCurrencyDetails", type: .object(ReceivingAmountCurrencyDetail.selections)),
           GraphQLField("dateAdded", type: .scalar(String.self)),
           GraphQLField("service", type: .object(Service.selections)),
@@ -2728,7 +2750,9 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
           GraphQLField("operator", type: .object(Operator.selections)),
           GraphQLField("sourceCountry", type: .object(SourceCountry.selections)),
           GraphQLField("destinationCountry", type: .object(DestinationCountry.selections)),
+          GraphQLField("paymentInfo", type: .object(PaymentInfo.selections)),
           GraphQLField("product", type: .object(Product.selections)),
+          GraphQLField("esimDeliveryInfo", type: .object(EsimDeliveryInfo.selections)),
         ]
       }
 
@@ -2738,8 +2762,8 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
         self.resultMap = unsafeResultMap
       }
 
-      public init(id: Int, dtoneTranUniqueId: String, dtoneReferenceId: String? = nil, transactionAmount: String, rate: String, receivingAmount: String, receivingAmountCurrency: String? = nil, totalAmount: String, status: String? = nil, subStatus: String? = nil, isPinType: Bool? = nil, pinCode: String? = nil, pinSerial: String? = nil, receivingAmountCurrencyDetails: ReceivingAmountCurrencyDetail? = nil, dateAdded: String? = nil, service: Service? = nil, subService: SubService? = nil, recipient: Recipient? = nil, `operator`: Operator? = nil, sourceCountry: SourceCountry? = nil, destinationCountry: DestinationCountry? = nil, product: Product? = nil) {
-        self.init(unsafeResultMap: ["__typename": "TransactionDetailsDTO", "id": id, "dtoneTranUniqueId": dtoneTranUniqueId, "dtoneReferenceId": dtoneReferenceId, "transactionAmount": transactionAmount, "rate": rate, "receivingAmount": receivingAmount, "receivingAmountCurrency": receivingAmountCurrency, "totalAmount": totalAmount, "status": status, "subStatus": subStatus, "isPinType": isPinType, "pinCode": pinCode, "pinSerial": pinSerial, "receivingAmountCurrencyDetails": receivingAmountCurrencyDetails.flatMap { (value: ReceivingAmountCurrencyDetail) -> ResultMap in value.resultMap }, "dateAdded": dateAdded, "service": service.flatMap { (value: Service) -> ResultMap in value.resultMap }, "subService": subService.flatMap { (value: SubService) -> ResultMap in value.resultMap }, "recipient": recipient.flatMap { (value: Recipient) -> ResultMap in value.resultMap }, "operator": `operator`.flatMap { (value: Operator) -> ResultMap in value.resultMap }, "sourceCountry": sourceCountry.flatMap { (value: SourceCountry) -> ResultMap in value.resultMap }, "destinationCountry": destinationCountry.flatMap { (value: DestinationCountry) -> ResultMap in value.resultMap }, "product": product.flatMap { (value: Product) -> ResultMap in value.resultMap }])
+      public init(id: Int, dtoneTranUniqueId: String, dtoneReferenceId: String? = nil, transactionAmount: String, rate: String, receivingAmount: String, receivingAmountCurrency: String? = nil, totalAmount: String, status: String? = nil, subStatus: String? = nil, isPinType: Bool? = nil, pinCode: String? = nil, pinSerial: String? = nil, isCardVerificationRequired: Bool? = nil, receivingAmountCurrencyDetails: ReceivingAmountCurrencyDetail? = nil, dateAdded: String? = nil, service: Service? = nil, subService: SubService? = nil, recipient: Recipient? = nil, `operator`: Operator? = nil, sourceCountry: SourceCountry? = nil, destinationCountry: DestinationCountry? = nil, paymentInfo: PaymentInfo? = nil, product: Product? = nil, esimDeliveryInfo: EsimDeliveryInfo? = nil) {
+        self.init(unsafeResultMap: ["__typename": "TransactionDetailsDTO", "id": id, "dtoneTranUniqueId": dtoneTranUniqueId, "dtoneReferenceId": dtoneReferenceId, "transactionAmount": transactionAmount, "rate": rate, "receivingAmount": receivingAmount, "receivingAmountCurrency": receivingAmountCurrency, "totalAmount": totalAmount, "status": status, "subStatus": subStatus, "isPinType": isPinType, "pinCode": pinCode, "pinSerial": pinSerial, "isCardVerificationRequired": isCardVerificationRequired, "receivingAmountCurrencyDetails": receivingAmountCurrencyDetails.flatMap { (value: ReceivingAmountCurrencyDetail) -> ResultMap in value.resultMap }, "dateAdded": dateAdded, "service": service.flatMap { (value: Service) -> ResultMap in value.resultMap }, "subService": subService.flatMap { (value: SubService) -> ResultMap in value.resultMap }, "recipient": recipient.flatMap { (value: Recipient) -> ResultMap in value.resultMap }, "operator": `operator`.flatMap { (value: Operator) -> ResultMap in value.resultMap }, "sourceCountry": sourceCountry.flatMap { (value: SourceCountry) -> ResultMap in value.resultMap }, "destinationCountry": destinationCountry.flatMap { (value: DestinationCountry) -> ResultMap in value.resultMap }, "paymentInfo": paymentInfo.flatMap { (value: PaymentInfo) -> ResultMap in value.resultMap }, "product": product.flatMap { (value: Product) -> ResultMap in value.resultMap }, "esimDeliveryInfo": esimDeliveryInfo.flatMap { (value: EsimDeliveryInfo) -> ResultMap in value.resultMap }])
       }
 
       public var __typename: String {
@@ -2868,6 +2892,15 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
         }
       }
 
+      public var isCardVerificationRequired: Bool? {
+        get {
+          return resultMap["isCardVerificationRequired"] as? Bool
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "isCardVerificationRequired")
+        }
+      }
+
       public var receivingAmountCurrencyDetails: ReceivingAmountCurrencyDetail? {
         get {
           return (resultMap["receivingAmountCurrencyDetails"] as? ResultMap).flatMap { ReceivingAmountCurrencyDetail(unsafeResultMap: $0) }
@@ -2940,12 +2973,30 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
         }
       }
 
+      public var paymentInfo: PaymentInfo? {
+        get {
+          return (resultMap["paymentInfo"] as? ResultMap).flatMap { PaymentInfo(unsafeResultMap: $0) }
+        }
+        set {
+          resultMap.updateValue(newValue?.resultMap, forKey: "paymentInfo")
+        }
+      }
+
       public var product: Product? {
         get {
           return (resultMap["product"] as? ResultMap).flatMap { Product(unsafeResultMap: $0) }
         }
         set {
           resultMap.updateValue(newValue?.resultMap, forKey: "product")
+        }
+      }
+
+      public var esimDeliveryInfo: EsimDeliveryInfo? {
+        get {
+          return (resultMap["esimDeliveryInfo"] as? ResultMap).flatMap { EsimDeliveryInfo(unsafeResultMap: $0) }
+        }
+        set {
+          resultMap.updateValue(newValue?.resultMap, forKey: "esimDeliveryInfo")
         }
       }
 
@@ -3372,14 +3423,16 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
         }
       }
 
-      public struct Product: GraphQLSelectionSet {
-        public static let possibleTypes: [String] = ["ProductDTO"]
+      public struct PaymentInfo: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["PaymentInfo"]
 
         public static var selections: [GraphQLSelection] {
           return [
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-            GraphQLField("name", type: .nonNull(.scalar(String.self))),
-            GraphQLField("description", type: .nonNull(.scalar(String.self))),
+            GraphQLField("paymentType", type: .scalar(String.self)),
+            GraphQLField("name", type: .scalar(String.self)),
+            GraphQLField("cardType", type: .scalar(String.self)),
+            GraphQLField("cardInfo", type: .scalar(String.self)),
           ]
         }
 
@@ -3389,8 +3442,8 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public init(name: String, description: String) {
-          self.init(unsafeResultMap: ["__typename": "ProductDTO", "name": name, "description": description])
+        public init(paymentType: String? = nil, name: String? = nil, cardType: String? = nil, cardInfo: String? = nil) {
+          self.init(unsafeResultMap: ["__typename": "PaymentInfo", "paymentType": paymentType, "name": name, "cardType": cardType, "cardInfo": cardInfo])
         }
 
         public var __typename: String {
@@ -3399,6 +3452,88 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
           }
           set {
             resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var paymentType: String? {
+          get {
+            return resultMap["paymentType"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "paymentType")
+          }
+        }
+
+        public var name: String? {
+          get {
+            return resultMap["name"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "name")
+          }
+        }
+
+        public var cardType: String? {
+          get {
+            return resultMap["cardType"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "cardType")
+          }
+        }
+
+        public var cardInfo: String? {
+          get {
+            return resultMap["cardInfo"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "cardInfo")
+          }
+        }
+      }
+
+      public struct Product: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["ProductDTO"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+            GraphQLField("name", type: .nonNull(.scalar(String.self))),
+            GraphQLField("description", type: .nonNull(.scalar(String.self))),
+            GraphQLField("pinTerms", type: .scalar(String.self)),
+            GraphQLField("validityUnit", type: .scalar(String.self)),
+            GraphQLField("validityQuantity", type: .scalar(Int.self)),
+            GraphQLField("pinValidityUnit", type: .scalar(String.self)),
+            GraphQLField("pinValidityQuantity", type: .scalar(Double.self)),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(id: Int, name: String, description: String, pinTerms: String? = nil, validityUnit: String? = nil, validityQuantity: Int? = nil, pinValidityUnit: String? = nil, pinValidityQuantity: Double? = nil) {
+          self.init(unsafeResultMap: ["__typename": "ProductDTO", "id": id, "name": name, "description": description, "pinTerms": pinTerms, "validityUnit": validityUnit, "validityQuantity": validityQuantity, "pinValidityUnit": pinValidityUnit, "pinValidityQuantity": pinValidityQuantity])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var id: Int {
+          get {
+            return resultMap["id"]! as! Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "id")
           }
         }
 
@@ -3418,6 +3553,229 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
           set {
             resultMap.updateValue(newValue, forKey: "description")
           }
+        }
+
+        public var pinTerms: String? {
+          get {
+            return resultMap["pinTerms"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "pinTerms")
+          }
+        }
+
+        public var validityUnit: String? {
+          get {
+            return resultMap["validityUnit"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "validityUnit")
+          }
+        }
+
+        public var validityQuantity: Int? {
+          get {
+            return resultMap["validityQuantity"] as? Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "validityQuantity")
+          }
+        }
+
+        public var pinValidityUnit: String? {
+          get {
+            return resultMap["pinValidityUnit"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "pinValidityUnit")
+          }
+        }
+
+        public var pinValidityQuantity: Double? {
+          get {
+            return resultMap["pinValidityQuantity"] as? Double
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "pinValidityQuantity")
+          }
+        }
+      }
+
+      public struct EsimDeliveryInfo: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["EsimDeliveryInfo"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("qrCode", type: .scalar(String.self)),
+            GraphQLField("universalLink", type: .scalar(String.self)),
+            GraphQLField("smdpAddress", type: .scalar(String.self)),
+            GraphQLField("activationCode", type: .scalar(String.self)),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(qrCode: String? = nil, universalLink: String? = nil, smdpAddress: String? = nil, activationCode: String? = nil) {
+          self.init(unsafeResultMap: ["__typename": "EsimDeliveryInfo", "qrCode": qrCode, "universalLink": universalLink, "smdpAddress": smdpAddress, "activationCode": activationCode])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var qrCode: String? {
+          get {
+            return resultMap["qrCode"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "qrCode")
+          }
+        }
+
+        public var universalLink: String? {
+          get {
+            return resultMap["universalLink"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "universalLink")
+          }
+        }
+
+        public var smdpAddress: String? {
+          get {
+            return resultMap["smdpAddress"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "smdpAddress")
+          }
+        }
+
+        public var activationCode: String? {
+          get {
+            return resultMap["activationCode"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "activationCode")
+          }
+        }
+      }
+    }
+  }
+}
+
+public final class GetEsimCompatibleDevicesQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query GetEsimCompatibleDevices {
+      getEsimCompatibleDevices {
+        __typename
+        deviceType
+        devices
+        notes
+      }
+    }
+    """
+
+  public let operationName: String = "GetEsimCompatibleDevices"
+
+  public init() {
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("getEsimCompatibleDevices", type: .nonNull(.list(.nonNull(.object(GetEsimCompatibleDevice.selections))))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(getEsimCompatibleDevices: [GetEsimCompatibleDevice]) {
+      self.init(unsafeResultMap: ["__typename": "Query", "getEsimCompatibleDevices": getEsimCompatibleDevices.map { (value: GetEsimCompatibleDevice) -> ResultMap in value.resultMap }])
+    }
+
+    /// List eSIM compatible devices
+    public var getEsimCompatibleDevices: [GetEsimCompatibleDevice] {
+      get {
+        return (resultMap["getEsimCompatibleDevices"] as! [ResultMap]).map { (value: ResultMap) -> GetEsimCompatibleDevice in GetEsimCompatibleDevice(unsafeResultMap: value) }
+      }
+      set {
+        resultMap.updateValue(newValue.map { (value: GetEsimCompatibleDevice) -> ResultMap in value.resultMap }, forKey: "getEsimCompatibleDevices")
+      }
+    }
+
+    public struct GetEsimCompatibleDevice: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["EsimCompatibleDevicesDto"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("deviceType", type: .nonNull(.scalar(String.self))),
+          GraphQLField("devices", type: .nonNull(.list(.nonNull(.scalar(String.self))))),
+          GraphQLField("notes", type: .list(.nonNull(.scalar(String.self)))),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(deviceType: String, devices: [String], notes: [String]? = nil) {
+        self.init(unsafeResultMap: ["__typename": "EsimCompatibleDevicesDto", "deviceType": deviceType, "devices": devices, "notes": notes])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var deviceType: String {
+        get {
+          return resultMap["deviceType"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "deviceType")
+        }
+      }
+
+      public var devices: [String] {
+        get {
+          return resultMap["devices"]! as! [String]
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "devices")
+        }
+      }
+
+      public var notes: [String]? {
+        get {
+          return resultMap["notes"] as? [String]
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "notes")
         }
       }
     }
