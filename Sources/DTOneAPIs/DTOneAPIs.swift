@@ -2634,6 +2634,7 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
           city
           mobileNumber
           creditPartyMobileNumber
+          creditPartyAccountNumber
         }
         operator {
           __typename
@@ -3151,6 +3152,7 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
             GraphQLField("city", type: .scalar(String.self)),
             GraphQLField("mobileNumber", type: .scalar(String.self)),
             GraphQLField("creditPartyMobileNumber", type: .scalar(String.self)),
+            GraphQLField("creditPartyAccountNumber", type: .scalar(String.self)),
           ]
         }
 
@@ -3160,8 +3162,8 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public init(firstName: String? = nil, middleName: String? = nil, lastName: String? = nil, email: String? = nil, address: String? = nil, city: String? = nil, mobileNumber: String? = nil, creditPartyMobileNumber: String? = nil) {
-          self.init(unsafeResultMap: ["__typename": "TransactionRecipientDTO", "firstName": firstName, "middleName": middleName, "lastName": lastName, "email": email, "address": address, "city": city, "mobileNumber": mobileNumber, "creditPartyMobileNumber": creditPartyMobileNumber])
+        public init(firstName: String? = nil, middleName: String? = nil, lastName: String? = nil, email: String? = nil, address: String? = nil, city: String? = nil, mobileNumber: String? = nil, creditPartyMobileNumber: String? = nil, creditPartyAccountNumber: String? = nil) {
+          self.init(unsafeResultMap: ["__typename": "TransactionRecipientDTO", "firstName": firstName, "middleName": middleName, "lastName": lastName, "email": email, "address": address, "city": city, "mobileNumber": mobileNumber, "creditPartyMobileNumber": creditPartyMobileNumber, "creditPartyAccountNumber": creditPartyAccountNumber])
         }
 
         public var __typename: String {
@@ -3242,6 +3244,15 @@ public final class GetDtOneTransactionDetailQueryQuery: GraphQLQuery {
           }
           set {
             resultMap.updateValue(newValue, forKey: "creditPartyMobileNumber")
+          }
+        }
+
+        public var creditPartyAccountNumber: String? {
+          get {
+            return resultMap["creditPartyAccountNumber"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "creditPartyAccountNumber")
           }
         }
       }
