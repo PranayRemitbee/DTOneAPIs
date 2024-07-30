@@ -920,17 +920,19 @@ public final class CreateDtOneTransactionMutation: GraphQLMutation {
   public let operationName: String = "CreateDTOneTransaction"
 
   public var businessUniqueId: String?
+  public var idempotencyKey: String
   public var transaction: TransactionSaveInput
   public var payment: TransactionPaymentInput
 
-  public init(businessUniqueId: String? = nil, transaction: TransactionSaveInput, payment: TransactionPaymentInput) {
+  public init(businessUniqueId: String? = nil, idempotencyKey: String, transaction: TransactionSaveInput, payment: TransactionPaymentInput) {
     self.businessUniqueId = businessUniqueId
+    self.idempotencyKey = idempotencyKey
     self.transaction = transaction
     self.payment = payment
   }
 
   public var variables: GraphQLMap? {
-    return ["businessUniqueId": businessUniqueId, "transaction": transaction, "payment": payment]
+    return ["businessUniqueId": businessUniqueId, "idempotencyKey": idempotencyKey, "transaction": transaction, "payment": payment]
   }
 
   public struct Data: GraphQLSelectionSet {
@@ -938,10 +940,9 @@ public final class CreateDtOneTransactionMutation: GraphQLMutation {
 
     public static var selections: [GraphQLSelection] {
       return [
-        GraphQLField("createTransaction", arguments: ["businessUniqueId": GraphQLVariable("businessUniqueId"), "payment": GraphQLVariable("payment"), "transaction": GraphQLVariable("transaction")], type: .nonNull(.object(CreateTransaction.selections))),
+        GraphQLField("createTransaction", arguments: ["businessUniqueId": GraphQLVariable("businessUniqueId"), "idempotencyKey": GraphQLVariable("idempotencyKey"), "payment": GraphQLVariable("payment"), "transaction": GraphQLVariable("transaction")], type: .nonNull(.object(CreateTransaction.selections))),
       ]
     }
-
     public private(set) var resultMap: ResultMap
 
     public init(unsafeResultMap: ResultMap) {
