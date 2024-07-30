@@ -896,8 +896,8 @@ public final class CreateDtOneTransactionMutation: GraphQLMutation {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
     """
-    mutation CreateDTOneTransaction($businessUniqueId: String, $transaction: TransactionSaveInput!, $payment: TransactionPaymentInput!) {
-      createTransaction(businessUniqueId: $businessUniqueId, payment: $payment, transaction: $transaction) {
+    mutation CreateDTOneTransaction($businessUniqueId: String, $idempotencyKey: String!, $transaction: TransactionSaveInput!, $payment: TransactionPaymentInput!) {
+      createTransaction(businessUniqueId: $businessUniqueId, idempotencyKey: $idempotencyKey, payment: $payment, transaction: $transaction) {
         __typename
         message
         pinCode
