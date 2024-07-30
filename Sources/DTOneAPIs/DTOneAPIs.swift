@@ -943,6 +943,7 @@ public final class CreateDtOneTransactionMutation: GraphQLMutation {
         GraphQLField("createTransaction", arguments: ["businessUniqueId": GraphQLVariable("businessUniqueId"), "idempotencyKey": GraphQLVariable("idempotencyKey"), "payment": GraphQLVariable("payment"), "transaction": GraphQLVariable("transaction")], type: .nonNull(.object(CreateTransaction.selections))),
       ]
     }
+
     public private(set) var resultMap: ResultMap
 
     public init(unsafeResultMap: ResultMap) {
