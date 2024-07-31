@@ -1147,8 +1147,8 @@ public final class CreateEsimTransactionMutation: GraphQLMutation {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
     """
-    mutation CreateEsimTransaction($businessUniqueId: String, $transaction: TransactionSaveInput!, $payment: TransactionPaymentInput!) {
-      createTransaction(payment: $payment, transaction: $transaction, businessUniqueId: $businessUniqueId) {
+    mutation CreateEsimTransaction($businessUniqueId: String, $idempotencyKey: String!, $transaction: TransactionSaveInput!, $payment: TransactionPaymentInput!) {
+      createTransaction(payment: $payment, idempotencyKey: $idempotencyKey, transaction: $transaction, businessUniqueId: $businessUniqueId) {
         __typename
         dtoneTranId
         isCardVerificationRequired
@@ -1173,17 +1173,19 @@ public final class CreateEsimTransactionMutation: GraphQLMutation {
   public let operationName: String = "CreateEsimTransaction"
 
   public var businessUniqueId: String?
+  public var idempotencyKey: String
   public var transaction: TransactionSaveInput
   public var payment: TransactionPaymentInput
 
-  public init(businessUniqueId: String? = nil, transaction: TransactionSaveInput, payment: TransactionPaymentInput) {
+  public init(businessUniqueId: String? = nil, idempotencyKey: String, transaction: TransactionSaveInput, payment: TransactionPaymentInput) {
     self.businessUniqueId = businessUniqueId
+    self.idempotencyKey = idempotencyKey
     self.transaction = transaction
     self.payment = payment
   }
 
   public var variables: GraphQLMap? {
-    return ["businessUniqueId": businessUniqueId, "transaction": transaction, "payment": payment]
+    return ["businessUniqueId": businessUniqueId, "idempotencyKey": idempotencyKey, "transaction": transaction, "payment": payment]
   }
 
   public struct Data: GraphQLSelectionSet {
@@ -1191,7 +1193,7 @@ public final class CreateEsimTransactionMutation: GraphQLMutation {
 
     public static var selections: [GraphQLSelection] {
       return [
-        GraphQLField("createTransaction", arguments: ["payment": GraphQLVariable("payment"), "transaction": GraphQLVariable("transaction"), "businessUniqueId": GraphQLVariable("businessUniqueId")], type: .nonNull(.object(CreateTransaction.selections))),
+        GraphQLField("createTransaction", arguments: ["payment": GraphQLVariable("payment"), "idempotencyKey": GraphQLVariable("idempotencyKey"), "transaction": GraphQLVariable("transaction"), "businessUniqueId": GraphQLVariable("businessUniqueId")], type: .nonNull(.object(CreateTransaction.selections))),
       ]
     }
 
