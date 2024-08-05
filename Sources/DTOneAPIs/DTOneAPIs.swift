@@ -3830,6 +3830,11 @@ public final class GetEsimProductsQuery: GraphQLQuery {
             imageUrl
             label
             name
+            regions {
+              __typename
+              name
+              flagUrl
+            }
           }
           country {
             __typename
@@ -4215,6 +4220,7 @@ public final class GetEsimProductsQuery: GraphQLQuery {
               GraphQLField("imageUrl", type: .nonNull(.scalar(String.self))),
               GraphQLField("label", type: .nonNull(.scalar(String.self))),
               GraphQLField("name", type: .nonNull(.scalar(String.self))),
+              GraphQLField("regions", type: .list(.nonNull(.object(Region.selections)))),
             ]
           }
 
@@ -4224,8 +4230,8 @@ public final class GetEsimProductsQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(imageUrl: String, label: String, name: String) {
-            self.init(unsafeResultMap: ["__typename": "TransactionOperatorDTO", "imageUrl": imageUrl, "label": label, "name": name])
+          public init(imageUrl: String, label: String, name: String, regions: [Region]? = nil) {
+            self.init(unsafeResultMap: ["__typename": "TransactionOperatorDTO", "imageUrl": imageUrl, "label": label, "name": name, "regions": regions.flatMap { (value: [Region]) -> [ResultMap] in value.map { (value: Region) -> ResultMap in value.resultMap } }])
           }
 
           public var __typename: String {
@@ -4261,6 +4267,64 @@ public final class GetEsimProductsQuery: GraphQLQuery {
             }
             set {
               resultMap.updateValue(newValue, forKey: "name")
+            }
+          }
+
+          public var regions: [Region]? {
+            get {
+              return (resultMap["regions"] as? [ResultMap]).flatMap { (value: [ResultMap]) -> [Region] in value.map { (value: ResultMap) -> Region in Region(unsafeResultMap: value) } }
+            }
+            set {
+              resultMap.updateValue(newValue.flatMap { (value: [Region]) -> [ResultMap] in value.map { (value: Region) -> ResultMap in value.resultMap } }, forKey: "regions")
+            }
+          }
+
+          public struct Region: GraphQLSelectionSet {
+            public static let possibleTypes: [String] = ["OperatorRegionDTO"]
+
+            public static var selections: [GraphQLSelection] {
+              return [
+                GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+                GraphQLField("name", type: .nonNull(.scalar(String.self))),
+                GraphQLField("flagUrl", type: .nonNull(.scalar(String.self))),
+              ]
+            }
+
+            public private(set) var resultMap: ResultMap
+
+            public init(unsafeResultMap: ResultMap) {
+              self.resultMap = unsafeResultMap
+            }
+
+            public init(name: String, flagUrl: String) {
+              self.init(unsafeResultMap: ["__typename": "OperatorRegionDTO", "name": name, "flagUrl": flagUrl])
+            }
+
+            public var __typename: String {
+              get {
+                return resultMap["__typename"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "__typename")
+              }
+            }
+
+            public var name: String {
+              get {
+                return resultMap["name"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "name")
+              }
+            }
+
+            public var flagUrl: String {
+              get {
+                return resultMap["flagUrl"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "flagUrl")
+              }
             }
           }
         }
