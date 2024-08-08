@@ -664,51 +664,6 @@ public struct PageOptionsInput: GraphQLMapConvertible {
   }
 }
 
-public enum DestinationEnumType: RawRepresentable, Equatable, Hashable, CaseIterable, Apollo.JSONDecodable, Apollo.JSONEncodable {
-  public typealias RawValue = String
-  case global
-  case local
-  case regional
-  /// Auto generated constant for unknown enum values
-  case __unknown(RawValue)
-
-  public init?(rawValue: RawValue) {
-    switch rawValue {
-      case "GLOBAL": self = .global
-      case "LOCAL": self = .local
-      case "REGIONAL": self = .regional
-      default: self = .__unknown(rawValue)
-    }
-  }
-
-  public var rawValue: RawValue {
-    switch self {
-      case .global: return "GLOBAL"
-      case .local: return "LOCAL"
-      case .regional: return "REGIONAL"
-      case .__unknown(let value): return value
-    }
-  }
-
-  public static func == (lhs: DestinationEnumType, rhs: DestinationEnumType) -> Bool {
-    switch (lhs, rhs) {
-      case (.global, .global): return true
-      case (.local, .local): return true
-      case (.regional, .regional): return true
-      case (.__unknown(let lhsValue), .__unknown(let rhsValue)): return lhsValue == rhsValue
-      default: return false
-    }
-  }
-
-  public static var allCases: [DestinationEnumType] {
-    return [
-      .global,
-      .local,
-      .regional,
-    ]
-  }
-}
-
 public final class AuthorizeTransactionPaymentChallengeMutation: GraphQLMutation {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
@@ -2230,8 +2185,8 @@ public final class GetDtOneCallingCodesQuery: GraphQLQuery {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
     """
-    query GetDTOneCallingCodes($serviceId: Int!, $pageOptions: PageOptionsInput, $destinationType: DestinationEnumType) {
-      getCountries(serviceId: $serviceId, pageOptions: $pageOptions, destinationType: $destinationType) {
+    query GetDTOneCallingCodes($serviceId: Int!, $pageOptions: PageOptionsInput) {
+      getCountries(serviceId: $serviceId, pageOptions: $pageOptions) {
         __typename
         countries {
           __typename
@@ -2250,16 +2205,14 @@ public final class GetDtOneCallingCodesQuery: GraphQLQuery {
 
   public var serviceId: Int
   public var pageOptions: PageOptionsInput?
-  public var destinationType: DestinationEnumType?
 
-  public init(serviceId: Int, pageOptions: PageOptionsInput? = nil, destinationType: DestinationEnumType? = nil) {
+  public init(serviceId: Int, pageOptions: PageOptionsInput? = nil) {
     self.serviceId = serviceId
     self.pageOptions = pageOptions
-    self.destinationType = destinationType
   }
 
   public var variables: GraphQLMap? {
-    return ["serviceId": serviceId, "pageOptions": pageOptions, "destinationType": destinationType]
+    return ["serviceId": serviceId, "pageOptions": pageOptions]
   }
 
   public struct Data: GraphQLSelectionSet {
@@ -2267,7 +2220,7 @@ public final class GetDtOneCallingCodesQuery: GraphQLQuery {
 
     public static var selections: [GraphQLSelection] {
       return [
-        GraphQLField("getCountries", arguments: ["serviceId": GraphQLVariable("serviceId"), "pageOptions": GraphQLVariable("pageOptions"), "destinationType": GraphQLVariable("destinationType")], type: .nonNull(.object(GetCountry.selections))),
+        GraphQLField("getCountries", arguments: ["serviceId": GraphQLVariable("serviceId"), "pageOptions": GraphQLVariable("pageOptions")], type: .nonNull(.object(GetCountry.selections))),
       ]
     }
 
